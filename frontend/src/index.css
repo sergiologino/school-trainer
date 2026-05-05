@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f9fafb;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    overflow-y: auto;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: auto;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: auto;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: auto;
+  }
+
+  #root {
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+
+  input, button, textarea {
+    font-family: inherit;
+  }
+}
+
+@layer utilities {
+  .font-nunito {
+    font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  }
+
+  .safe-area-pb {
+    padding-bottom: env(safe-area-inset-bottom, 8px);
+  }
+
+  .active\:scale-98:active {
+    transform: scale(0.98);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4b5fd;
+  border-radius: 4px;
+}
+
+.fraction {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.fraction .numerator {
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 2px;
+  line-height: 1;
+}
+
+.fraction .denominator {
+  padding-top: 2px;
+  line-height: 1;
+}
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}

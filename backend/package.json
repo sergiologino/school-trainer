@@ -1,0 +1,26 @@
+{
+  "name": "@school-trainer/backend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "rebuild:sqlite": "npm rebuild better-sqlite3",
+    "prebuild": "node scripts/extract-client-bundles.mjs",
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "pretest": "node scripts/extract-client-bundles.mjs",
+    "test": "npm run build && node --test dist/api.test.js"
+  },
+  "dependencies": {
+    "@fastify/cors": "^10.1.0",
+    "better-sqlite3": "^11.10.0",
+    "fastify": "^5.6.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.19.17",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

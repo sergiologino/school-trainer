@@ -1,0 +1,20 @@
+{
+  "name": "school-trainer",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "rebuild:sqlite": "npm rebuild better-sqlite3",
+    "dev": "concurrently \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "build": "npm run build -w backend && npm run build -w frontend",
+    "test": "npm run test --workspace=@school-trainer/backend && npm run test --workspace=@school-trainer/frontend",
+    "start": "npm run start -w backend",
+    "lint": "npm run lint -w frontend --if-present"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

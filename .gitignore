@@ -1,0 +1,16 @@
+node_modules/
+**/dist/
+.idea/
+.DS_Store
+
+# SQLite dev DB
+data/*.db
+data/*.db-*
+backend/data/*.db
+
+# Generated curriculum bundles (recreate with backend prebuild)
+backend/content/_generated/
+backend/src/content/_generated/
+
+# Logs
+npm-debug.log*
