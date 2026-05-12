@@ -8,6 +8,7 @@ RUN apt-get update \
 
 COPY package.json package-lock.json ./
 COPY backend/package.json ./backend/package.json
+COPY frontend/package.json ./frontend/package.json
 
 RUN npm ci --workspace=@school-trainer/backend --include-workspace-root=false
 
