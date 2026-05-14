@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
 import { useStore, ALL_ACHIEVEMENTS_LIST } from '../store/useStore';
-
-const AVATARS = ['🦊', '🦋', '🐻', '🐱', '🐯', '🦄', '🦁', '🐸', '🐺', '🦅', '🐨', '🦒'];
+import { useUnifiedStore } from '@/store/useUnifiedStore';
+import { AVATAR_CHOICES } from '@/store/profile';
 
 export default function ProfileSection() {
   const { user, stats, setUser, setCurrentSection } = useStore();
+  const updateUnifiedProfile = useUnifiedStore((s) => s.updateProfile);
 
   if (!user) {
     setCurrentSection('home');
@@ -20,10 +21,12 @@ export default function ProfileSection() {
 
   const handleAvatarChange = (av: string) => {
     setUser({ ...user, avatar: av });
+    updateUnifiedProfile({ avatar: av });
   };
 
   const handleGradeChange = (g: number) => {
     setUser({ ...user, grade: g });
+    updateUnifiedProfile({ grade: g });
   };
 
   return (
@@ -65,7 +68,7 @@ export default function ProfileSection() {
       <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-4">
         <h3 className="font-bold text-gray-800 mb-3">Выбери аватар</h3>
         <div className="grid grid-cols-6 gap-2">
-          {AVATARS.map(av => (
+          {AVATAR_CHOICES.map(av => (
             <motion.button
               key={av}
               whileTap={{ scale: 0.9 }}

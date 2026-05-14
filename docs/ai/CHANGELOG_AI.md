@@ -6,3 +6,4 @@
 - **2026-05-03** — Создан монорепо: объединённые три PWA в `frontend`, backend SQLite+seed+API контента 5 класса, математика с новыми темами и генераторами вопросов, автотесты backend+vitest frontend, обновлена доменная заметка `domains/content.md`.
 - **2026-05-06** — Добавлен offline-first content storage: таблицы `subject`, `grade`, `content_item`, `content_package`, API `/api/content/manifest` и `/api/content/packages/:key`, web sync cache `contentSync.ts`, тесты backend/frontend и обновление документации контракта.
 - **2026-05-06** — Исправлен UI-баг английских диктантов/quiz: ввод ответа больше не перетасовывает текущий вопрос или варианты; добавлен regression test.
+- **2026-05-14** — Web-клиент оформлен как installable PWA: добавлены service worker `/sw.js`, registration, полный manifest, regression test. Аватар ученика закреплён за unified profile; предметные экраны должны синхронизировать изменения с `school-trainer-session`.

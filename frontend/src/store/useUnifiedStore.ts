@@ -12,6 +12,7 @@ export interface UnifiedUser {
 interface UnifiedState {
   user: UnifiedUser | null;
   login: (u: UnifiedUser) => void;
+  updateProfile: (patch: Partial<Pick<UnifiedUser, 'avatar' | 'grade' | 'name' | 'email'>>) => void;
   logout: () => void;
 }
 
@@ -20,6 +21,7 @@ export const useUnifiedStore = create<UnifiedState>()(
     (set) => ({
       user: null,
       login: (u) => set({ user: u }),
+      updateProfile: (patch) => set((state) => (state.user ? { user: { ...state.user, ...patch } } : state)),
       logout: () => set({ user: null }),
     }),
     { name: 'school-trainer-session' }

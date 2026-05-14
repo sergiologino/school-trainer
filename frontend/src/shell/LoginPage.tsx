@@ -2,15 +2,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useUnifiedStore } from '@/store/useUnifiedStore';
-
-const AVATARS = ['🦊', '🐯', '🦁', '🐺', '🦝', '🐸', '🐧', '🦉', '🦄', '🐲'];
+import { AVATAR_CHOICES } from '@/store/profile';
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const login = useUnifiedStore((s) => s.login);
   const [step, setStep] = useState<'welcome' | 'name' | 'avatar'>('welcome');
   const [name, setName] = useState('');
-  const [selectedAvatar, setSelectedAvatar] = useState(AVATARS[0]);
+  const [selectedAvatar, setSelectedAvatar] = useState<string>(AVATAR_CHOICES[0]);
   const [error, setError] = useState('');
 
   const finish = () => {
@@ -74,7 +73,7 @@ export default function LoginPage() {
         <motion.div className="relative z-10 max-w-md w-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <h2 className="font-black text-2xl text-white mb-4 text-center">Выбери аватар</h2>
           <div className="grid grid-cols-6 gap-2 mb-8">
-            {AVATARS.map((a) => (
+            {AVATAR_CHOICES.map((a) => (
               <button
                 key={a}
                 type="button"
