@@ -113,7 +113,7 @@ export const useStore = create<AppState>()(
             const newEntry: LeaderboardEntry = {
               id: user.id,
               name: user.name,
-              avatar: '🦅',
+              avatar: user.avatar,
               xp: newXP,
               grade: user.grade,
               streak: stats.streakDays,

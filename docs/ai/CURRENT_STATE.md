@@ -36,6 +36,12 @@
 
 См. `docs/ai/domains/content.md`.
 
+## PWA и профиль
+
+- Web-клиент регистрирует `/sw.js` и использует installable manifest `/manifest.webmanifest`; контракт PWA описан в `docs/ai/domains/pwa.md`.
+- Единый аватар ученика хранится в unified session (`school-trainer-session`); предметные профили не должны держать независимый выбранный аватар.
+- Рейтинги сейчас остаются общими моковыми списками с текущим пользователем внутри общего списка; персональные fake leaderboard запрещены контрактом.
+
 ## Сборка и тесты
 
 - Корень: `npm run dev` — параллельно backend и frontend не настроены в одном скрипте без `concurrently` в установленном виде уже есть — запускать в двух терминалах или `npm run dev` если подключены оба workspaces (пользователь уже имеет concurrently в root package.json).
