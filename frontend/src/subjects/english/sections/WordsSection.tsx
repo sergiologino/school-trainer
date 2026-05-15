@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { VOCABULARY, type Word } from '../data/vocabulary';
 import { useStore } from '../store/useStore';
 import { getSyncedPackage } from '@/content/contentSync';
+import { WordVisual } from '../components/WordVisual';
 
 type Mode = 'browse' | 'flashcard' | 'quiz' | 'match';
 
@@ -40,7 +41,7 @@ function FlashCard({ word, onKnew, onDidntKnow }: {
             style={{ backfaceVisibility: 'hidden', position: 'absolute', inset: 0 }}
             className="bg-gradient-to-br from-violet-500 to-purple-700 rounded-3xl shadow-xl flex flex-col items-center justify-center text-white p-6"
           >
-            <span className="text-7xl mb-3">{word.emoji}</span>
+            <div className="mb-3"><WordVisual word={word} size="xl" /></div>
             <h2 className="text-3xl font-extrabold">{word.english}</h2>
             <p className="text-violet-200 text-sm mt-1">{word.transcription}</p>
             <p className="text-violet-200 text-xs mt-3 opacity-70">Нажми чтобы перевернуть</p>
@@ -50,7 +51,7 @@ function FlashCard({ word, onKnew, onDidntKnow }: {
             style={{ backfaceVisibility: 'hidden', position: 'absolute', inset: 0, transform: 'rotateY(180deg)' }}
             className="bg-gradient-to-br from-indigo-500 to-blue-700 rounded-3xl shadow-xl flex flex-col items-center justify-center text-white p-6"
           >
-            <span className="text-5xl mb-3">{word.emoji}</span>
+            <div className="mb-3"><WordVisual word={word} size="lg" /></div>
             <h2 className="text-3xl font-extrabold">{word.russian}</h2>
             <p className="text-blue-200 text-sm mt-1">{word.english} {word.transcription}</p>
             <p className="text-blue-200 text-xs mt-2 italic">{word.category} • {word.grade} класс</p>
@@ -153,7 +154,7 @@ function QuizMode({ words, onFinish }: { words: Word[]; onFinish: (score: number
       </div>
 
       <div className="bg-gradient-to-br from-violet-500 to-purple-700 rounded-3xl p-8 text-center text-white mb-6 shadow-xl">
-        <div className="text-5xl mb-2">{word.emoji}</div>
+        <div className="mb-2 flex justify-center"><WordVisual word={word} size="lg" /></div>
         <h2 className="text-2xl font-extrabold">{word.russian}</h2>
         <p className="text-violet-200 text-sm mt-1">Выбери правильный перевод</p>
       </div>
@@ -250,7 +251,7 @@ function MatchMode({ words, onFinish }: { words: Word[]; onFinish: (score: numbe
                   : 'bg-white border-gray-200 text-gray-800'
               }`}
             >
-              {w.emoji} {w.english}
+              <span className="inline-flex items-center gap-2"><WordVisual word={w} size="sm" /> {w.english}</span>
             </motion.button>
           ))}
         </div>
@@ -482,7 +483,7 @@ export default function WordsSection() {
             transition={{ delay: i * 0.02 }}
             className="bg-white rounded-2xl p-3 flex items-center gap-3 shadow-sm border border-gray-100"
           >
-            <span className="text-2xl">{word.emoji}</span>
+            <WordVisual word={word} size="sm" />
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <span className="font-bold text-gray-800">{word.english}</span>

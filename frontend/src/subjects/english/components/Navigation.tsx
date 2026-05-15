@@ -3,11 +3,10 @@ import { motion } from 'framer-motion';
 
 const NAV_ITEMS = [
   { id: 'home', emoji: '🏠', label: 'Главная' },
-  { id: 'words', emoji: '📚', label: 'Слова' },
-  { id: 'grammar', emoji: '📝', label: 'Грамматика' },
-  { id: 'verbs', emoji: '🔥', label: 'Глаголы' },
-  { id: 'dictation', emoji: '🎤', label: 'Диктант' },
+  { id: 'words', emoji: '📚', label: 'Учёба' },
+  { id: 'grammar', emoji: '🎯', label: 'Задания' },
   { id: 'leaderboard', emoji: '🏆', label: 'Рейтинг' },
+  { id: 'profile', emoji: '👤', label: 'Профиль' },
 ];
 
 export default function Navigation() {

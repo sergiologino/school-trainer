@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useStore } from '../store/useStore';
 import { ALL_ACHIEVEMENTS_LIST } from '../store/useStore';
+import { buildEnglishLeaderboard } from '../leaderboard';
+import { fetchSubjectLeaderboard, submitSubjectScore } from '@/leaderboard/leaderboardApi';
 
 function ShareCard({ name, xp, streak, wordsLearned, achievements }: {
   name: string; xp: number; streak: number; wordsLearned: number; achievements: number;
@@ -56,10 +58,45 @@ function ShareCard({ name, xp, streak, wordsLearned, achievements }: {
 export default function LeaderboardSection() {
   const { leaderboard, user, stats, setCurrentSection } = useStore();
   const [filter, setFilter] = useState<'all' | 4 | 5 | 6>('all');
+  const [remoteBoard, setRemoteBoard] = useState<typeof leaderboard | null>(null);
+
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    submitSubjectScore({
+      userId: user.id,
+      subject: 'english',
+      name: user.name,
+      avatar: user.avatar,
+      score: stats.totalXP,
+      level: Math.floor(stats.totalXP / 100) + 1,
+      streak: stats.streakDays,
+    })
+      .then(() => fetchSubjectLeaderboard('english'))
+      .then((entries) => {
+        if (cancelled) return;
+        setRemoteBoard(entries.map((entry) => ({
+          id: entry.id,
+          name: entry.name,
+          avatar: entry.avatar,
+          xp: entry.score,
+          grade: user.grade,
+          streak: entry.streak,
+        })));
+      })
+      .catch(() => {
+        if (!cancelled) setRemoteBoard(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [stats.streakDays, stats.totalXP, user]);
+
+  const fullBoard = remoteBoard ?? buildEnglishLeaderboard(leaderboard, user, stats);
 
   const filtered = filter === 'all'
-    ? leaderboard
-    : leaderboard.filter(e => e.grade === filter);
+    ? fullBoard
+    : fullBoard.filter(e => e.grade === filter);
 
   const sorted = [...filtered].sort((a, b) => b.xp - a.xp);
   const userRank = sorted.findIndex(e => e.id === user?.id) + 1;
@@ -186,7 +223,7 @@ export default function LeaderboardSection() {
                 <div>
                   <p className={`text-xs font-bold ${unlocked ? 'text-amber-800' : 'text-gray-500'}`}>{ach.titleRu}</p>
                   {unlocked && <p className="text-[10px] text-amber-600">Получено!</p>}
-                  {!unlocked && <p className="text-[10px] text-gray-400">Заблокировано</p>}
+                  {!unlocked && <p className="text-[10px] text-gray-400">{ach.requirement}</p>}
                 </div>
               </div>
             );

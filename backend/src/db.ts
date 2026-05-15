@@ -89,6 +89,20 @@ export function openDb() {
     );
     CREATE INDEX IF NOT EXISTS idx_content_package_manifest
       ON content_package(grade, subject_slug, package_type, status);
+
+    CREATE TABLE IF NOT EXISTS leaderboard_score (
+      user_id TEXT NOT NULL,
+      subject_slug TEXT NOT NULL,
+      name TEXT NOT NULL,
+      avatar TEXT NOT NULL,
+      score INTEGER NOT NULL DEFAULT 0,
+      level INTEGER NOT NULL DEFAULT 1,
+      streak INTEGER NOT NULL DEFAULT 0,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY(user_id, subject_slug)
+    );
+    CREATE INDEX IF NOT EXISTS idx_leaderboard_subject_score
+      ON leaderboard_score(subject_slug, score DESC, updated_at DESC);
   `);
 
   return db;

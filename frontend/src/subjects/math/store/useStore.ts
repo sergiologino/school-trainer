@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { submitSubjectScoreBestEffort } from '@/leaderboard/leaderboardApi';
 
 export interface User {
   id: string;
@@ -119,6 +120,14 @@ export const useStore = create<AppState>((set, get) => ({
     const updatedUser = { ...user, topicScores: newTopicScores, totalScore };
     saveUser(updatedUser);
     set({ user: updatedUser });
+    submitSubjectScoreBestEffort({
+      userId: updatedUser.id,
+      subject: 'math',
+      name: updatedUser.name,
+      avatar: updatedUser.avatar,
+      score: updatedUser.totalScore,
+      level: updatedUser.level,
+    });
     get().updateLeaderboard();
   },
 
@@ -130,6 +139,14 @@ export const useStore = create<AppState>((set, get) => ({
     const updatedUser = { ...user, xp: newXP, level: newLevel };
     saveUser(updatedUser);
     set({ user: updatedUser });
+    submitSubjectScoreBestEffort({
+      userId: updatedUser.id,
+      subject: 'math',
+      name: updatedUser.name,
+      avatar: updatedUser.avatar,
+      score: updatedUser.totalScore,
+      level: updatedUser.level,
+    });
   },
 
   addBadge: (badge) => {

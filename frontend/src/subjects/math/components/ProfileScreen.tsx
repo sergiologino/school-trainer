@@ -115,6 +115,7 @@ export const ProfileScreen: React.FC = () => {
                 >
                   <div className="text-2xl mb-1">{badge.emoji}</div>
                   <div className="text-xs font-bold text-gray-700 leading-tight">{badge.name}</div>
+                  <div className="mt-1 text-[10px] leading-tight text-gray-500">{badge.desc}</div>
                 </motion.div>
               );
             })}
