@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { RussianItemStat } from '../lib/russianAdaptive';
+import { submitSubjectScoreBestEffort } from '@/leaderboard/leaderboardApi';
 
 export interface User {
   id: string;
@@ -79,7 +80,17 @@ export const useStore = create<AppState>()(
         if (!user) return;
         const newXP = user.xp + amount;
         const newLevel = Math.floor(newXP / 500) + 1;
-        set({ user: { ...user, xp: newXP, level: newLevel } });
+        const updatedUser = { ...user, xp: newXP, level: newLevel };
+        set({ user: updatedUser });
+        submitSubjectScoreBestEffort({
+          userId: updatedUser.id,
+          subject: 'russian',
+          name: updatedUser.name,
+          avatar: updatedUser.avatar,
+          score: updatedUser.xp,
+          level: updatedUser.level,
+          streak: updatedUser.streak,
+        });
       },
 
       addTaskResult: (result: TaskResult) => {

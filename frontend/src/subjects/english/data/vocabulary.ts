@@ -57,8 +57,8 @@ export const VOCABULARY: Word[] = [
   { id: 'w36', english: 'pen', russian: 'ручка', transcription: '[pen]', emoji: '✏️', category: 'Школа', grade: 5, imageHint: 'writing pen' },
   { id: 'w37', english: 'pencil', russian: 'карандаш', transcription: '[ˈpensl]', emoji: '✏️', category: 'Школа', grade: 5, imageHint: 'colored pencil' },
   { id: 'w38', english: 'ruler', russian: 'линейка', transcription: '[ˈruːlə]', emoji: '📏', category: 'Школа', grade: 5, imageHint: 'measuring ruler' },
-  { id: 'w39', english: 'desk', russian: 'парта', transcription: '[desk]', emoji: '🪑', category: 'Школа', grade: 5, imageHint: 'school desk' },
-  { id: 'w40', english: 'board', russian: 'доска', transcription: '[bɔːd]', emoji: '🖊️', category: 'Школа', grade: 5, imageHint: 'blackboard' },
+  { id: 'w39', english: 'desk', russian: 'парта', transcription: '[desk]', emoji: '🪵', category: 'Школа', grade: 5, imageHint: 'school desk' },
+  { id: 'w40', english: 'board', russian: 'доска', transcription: '[bɔːd]', emoji: '🟩', category: 'Школа', grade: 5, imageHint: 'blackboard' },
   { id: 'w41', english: 'classroom', russian: 'класс', transcription: '[ˈklɑːsruːm]', emoji: '🏫', category: 'Школа', grade: 5, imageHint: 'school classroom' },
   { id: 'w42', english: 'teacher', russian: 'учитель', transcription: '[ˈtiːtʃə]', emoji: '👩‍🏫', category: 'Школа', grade: 5, imageHint: 'teacher at board' },
 
@@ -104,7 +104,7 @@ export const VOCABULARY: Word[] = [
   { id: 'w73', english: 'shoes', russian: 'туфли', transcription: '[ʃuːz]', emoji: '👟', category: 'Одежда', grade: 6, imageHint: 'pair of shoes' },
   { id: 'w74', english: 'hat', russian: 'шляпа', transcription: '[hæt]', emoji: '🎩', category: 'Одежда', grade: 6, imageHint: 'fancy hat' },
   { id: 'w75', english: 'coat', russian: 'пальто', transcription: '[kəʊt]', emoji: '🧥', category: 'Одежда', grade: 6, imageHint: 'winter coat' },
-  { id: 'w76', english: 'jacket', russian: 'куртка', transcription: '[ˈdʒækɪt]', emoji: '🧦', category: 'Одежда', grade: 6, imageHint: 'denim jacket' },
+  { id: 'w76', english: 'jacket', russian: 'куртка', transcription: '[ˈdʒækɪt]', emoji: '🧥', category: 'Одежда', grade: 6, imageHint: 'denim jacket' },
   { id: 'w77', english: 'jeans', russian: 'джинсы', transcription: '[dʒiːnz]', emoji: '👖', category: 'Одежда', grade: 6, imageHint: 'blue jeans' },
   { id: 'w78', english: 'socks', russian: 'носки', transcription: '[sɒks]', emoji: '🧦', category: 'Одежда', grade: 6, imageHint: 'colorful socks' },
 

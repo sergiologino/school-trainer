@@ -9,6 +9,7 @@ import VerbsSection from './sections/VerbsSection';
 import DictationSection from './sections/DictationSection';
 import LeaderboardSection from './sections/LeaderboardSection';
 import LoginSection from './sections/LoginSection';
+import ProfileSection from './sections/ProfileSection';
 
 const sectionMap: Record<string, React.ComponentType> = {
   home: HomeSection,
@@ -17,6 +18,7 @@ const sectionMap: Record<string, React.ComponentType> = {
   verbs: VerbsSection,
   dictation: DictationSection,
   leaderboard: LeaderboardSection,
+  profile: ProfileSection,
 };
 
 export default function App() {

@@ -67,6 +67,39 @@ test("API topics and bundles", async () => {
   assert.equal(contentPackage.key, "math_grade5_curriculum");
   assert.ok(contentPackage.payload.topics.length >= 6);
 
+  const scoreA = await app.inject({
+    method: "POST",
+    url: "/api/leaderboard/score",
+    payload: { userId: "u1", subject: "english", name: "Иван", avatar: "🦊", score: 1200, level: 4, streak: 3 },
+  });
+  assert.equal(scoreA.statusCode, 200);
+
+  const scoreB = await app.inject({
+    method: "POST",
+    url: "/api/leaderboard/score",
+    payload: { userId: "u2", subject: "english", name: "Петр", avatar: "🐯", score: 1600, level: 5, streak: 2 },
+  });
+  assert.equal(scoreB.statusCode, 200);
+
+  const subjectBoardRes = await app.inject({ method: "GET", url: "/api/leaderboard?subject=english" });
+  assert.equal(subjectBoardRes.statusCode, 200);
+  const subjectBoard = JSON.parse(subjectBoardRes.body) as { entries: Array<{ id: string; score: number; rank: number }> };
+  assert.equal(subjectBoard.entries[0].id, "u2");
+  assert.equal(subjectBoard.entries[1].id, "u1");
+
+  await app.inject({
+    method: "POST",
+    url: "/api/leaderboard/score",
+    payload: { userId: "u1", subject: "math", name: "Иван", avatar: "🦊", score: 500, level: 2, streak: 0 },
+  });
+  const globalBoardRes = await app.inject({ method: "GET", url: "/api/leaderboard?subject=global" });
+  assert.equal(globalBoardRes.statusCode, 200);
+  const globalBoard = JSON.parse(globalBoardRes.body) as { entries: Array<{ id: string; totalScore: number; englishScore: number; mathScore: number }> };
+  const ivan = globalBoard.entries.find((entry) => entry.id === "u1");
+  assert.equal(ivan?.totalScore, 1700);
+  assert.equal(ivan?.englishScore, 1200);
+  assert.equal(ivan?.mathScore, 500);
+
   await app.close();
   db.close();
   rmSync(dir, { recursive: true, force: true });

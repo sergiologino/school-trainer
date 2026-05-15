@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { submitSubjectScoreBestEffort } from '@/leaderboard/leaderboardApi';
 
 export interface User {
   id: string;
@@ -14,6 +15,7 @@ export interface Achievement {
   title: string;
   titleRu: string;
   emoji: string;
+  requirement: string;
   unlockedAt?: string;
 }
 
@@ -66,14 +68,14 @@ const MOCK_LEADERBOARD: LeaderboardEntry[] = [
 ];
 
 const ALL_ACHIEVEMENTS: Achievement[] = [
-  { id: 'first_word', title: 'First Word', titleRu: 'Первое слово', emoji: '🌱' },
-  { id: 'ten_words', title: 'Word Collector', titleRu: 'Коллекционер слов', emoji: '📚' },
-  { id: 'fifty_words', title: 'Vocabulary Pro', titleRu: 'Мастер словаря', emoji: '🏆' },
-  { id: 'first_verb', title: 'Verb Hunter', titleRu: 'Охотник за глаголами', emoji: '🎯' },
-  { id: 'perfect_quiz', title: 'Perfect Score', titleRu: 'Отличник', emoji: '⭐' },
-  { id: 'streak_7', title: '7-Day Streak', titleRu: '7 дней подряд', emoji: '🔥' },
-  { id: 'dictation', title: 'Dictation Star', titleRu: 'Звезда диктанта', emoji: '🎤' },
-  { id: 'xp_1000', title: 'XP Master', titleRu: 'Мастер опыта', emoji: '💫' },
+  { id: 'first_word', title: 'First Word', titleRu: 'Первое слово', emoji: '🌱', requirement: 'Изучи 1 новое слово.' },
+  { id: 'ten_words', title: 'Word Collector', titleRu: 'Коллекционер слов', emoji: '📚', requirement: 'Изучи 10 слов.' },
+  { id: 'fifty_words', title: 'Vocabulary Pro', titleRu: 'Мастер словаря', emoji: '🏆', requirement: 'Изучи 50 слов.' },
+  { id: 'first_verb', title: 'Verb Hunter', titleRu: 'Охотник за глаголами', emoji: '🎯', requirement: 'Пройди тренировку неправильных глаголов.' },
+  { id: 'perfect_quiz', title: 'Perfect Score', titleRu: 'Отличник', emoji: '⭐', requirement: 'Заверши quiz без ошибок.' },
+  { id: 'streak_7', title: '7-Day Streak', titleRu: '7 дней подряд', emoji: '🔥', requirement: 'Занимайся 7 дней подряд.' },
+  { id: 'dictation', title: 'Dictation Star', titleRu: 'Звезда диктанта', emoji: '🎤', requirement: 'Пройди диктант.' },
+  { id: 'xp_1000', title: 'XP Master', titleRu: 'Мастер опыта', emoji: '💫', requirement: 'Набери 1000 XP.' },
 ];
 
 const defaultStats: UserStats = {
@@ -104,6 +106,15 @@ export const useStore = create<AppState>()(
         set({ stats: { ...stats, totalXP: newXP } });
 
         if (user) {
+          submitSubjectScoreBestEffort({
+            userId: user.id,
+            subject: 'english',
+            name: user.name,
+            avatar: user.avatar,
+            score: newXP,
+            level: Math.floor(newXP / 100) + 1,
+            streak: stats.streakDays,
+          });
           const existingIdx = leaderboard.findIndex(e => e.id === user.id);
           if (existingIdx >= 0) {
             const updated = [...leaderboard];

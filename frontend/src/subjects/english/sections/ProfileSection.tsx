@@ -138,6 +138,7 @@ export default function ProfileSection() {
               >
                 <span className="text-2xl">{ach.emoji}</span>
                 <span className="text-[9px] text-gray-600 mt-1 leading-tight">{ach.titleRu}</span>
+                {!unlocked && <span className="mt-1 text-[8px] leading-tight text-gray-500">{ach.requirement}</span>}
               </div>
             );
           })}

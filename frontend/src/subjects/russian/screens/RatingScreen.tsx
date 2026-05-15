@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useStore } from '../store/useStore';
+import { fetchSubjectLeaderboard, submitSubjectScore } from '@/leaderboard/leaderboardApi';
 
 const levelColors = [
   'text-gray-500', 'text-green-500', 'text-blue-500', 'text-purple-500',
@@ -11,20 +12,51 @@ const levelColors = [
 export default function RatingScreen() {
   const { user, leaderboard } = useStore();
   const [tab, setTab] = useState<'global' | 'weekly'>('global');
+  const [remoteBoard, setRemoteBoard] = useState<typeof leaderboard | null>(null);
 
-  // Add current user to leaderboard if not there
-  const fullBoard = user
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    submitSubjectScore({
+      userId: user.id,
+      subject: 'russian',
+      name: user.name,
+      avatar: user.avatar,
+      score: user.xp,
+      level: user.level,
+      streak: user.streak,
+    })
+      .then(() => fetchSubjectLeaderboard('russian'))
+      .then((entries) => {
+        if (cancelled) return;
+        setRemoteBoard(entries.map((entry) => ({
+          id: entry.id,
+          name: entry.name,
+          avatar: entry.avatar,
+          xp: entry.score,
+          level: entry.level,
+          streak: entry.streak,
+        })));
+      })
+      .catch(() => {
+        if (!cancelled) setRemoteBoard(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
+
+  const localBoard = user
     ? [
         ...leaderboard.filter((e) => e.id !== user.id),
         { id: user.id, name: user.name, avatar: user.avatar, xp: user.xp, level: user.level, streak: user.streak },
       ].sort((a, b) => b.xp - a.xp)
     : leaderboard;
+  const fullBoard = remoteBoard ?? localBoard;
 
   const userRank = user ? fullBoard.findIndex((e) => e.id === user.id) + 1 : -1;
 
-  const weeklyBoard = [...fullBoard]
-    .map((e) => ({ ...e, xp: Math.floor(e.xp * (0.1 + Math.random() * 0.3)) }))
-    .sort((a, b) => b.xp - a.xp);
+  const weeklyBoard = fullBoard;
 
   const board = tab === 'global' ? fullBoard : weeklyBoard;
 

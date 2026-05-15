@@ -1,13 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useStore } from '../store/useStore';
+import { fetchSubjectLeaderboard, submitSubjectScore } from '@/leaderboard/leaderboardApi';
 
 const LEVEL_NAMES = ['', 'Новичок', 'Ученик', 'Знаток', 'Мастер', 'Эксперт', 'Гений', 'Чемпион', 'Легенда', 'Суперзвезда', 'Математик'];
 
 export const LeaderboardScreen: React.FC = () => {
   const { leaderboard, user } = useStore();
+  const [remoteBoard, setRemoteBoard] = useState(leaderboard);
 
-  const sorted = [...leaderboard].sort((a, b) => b.totalScore - a.totalScore);
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    submitSubjectScore({
+      userId: user.id,
+      subject: 'math',
+      name: user.name,
+      avatar: user.avatar,
+      score: user.totalScore,
+      level: user.level,
+    })
+      .then(() => fetchSubjectLeaderboard('math'))
+      .then((entries) => {
+        if (cancelled) return;
+        setRemoteBoard(entries.map((entry) => ({
+          id: entry.id,
+          name: entry.name,
+          avatar: entry.avatar,
+          totalScore: entry.score,
+          level: entry.level,
+        })));
+      })
+      .catch(() => {
+        if (!cancelled) setRemoteBoard(leaderboard);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [leaderboard, user]);
+
+  const sorted = [...remoteBoard].sort((a, b) => b.totalScore - a.totalScore);
   const userRank = sorted.findIndex(e => e.id === user?.id) + 1;
 
   const medalColors = ['#f59e0b', '#9ca3af', '#b45309'];
